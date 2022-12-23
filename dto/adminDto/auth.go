@@ -1,4 +1,4 @@
-package admindto
+package adminDto
 
 type LoginDTO struct {
 	Username string `json:"username" validate:"required"`
@@ -11,8 +11,7 @@ type LoginJWT struct {
 }
 
 type RegisterAdminDto struct {
-	RoleId    uint   `json:"role_id"`
-	MedicalId uint   `json:"medical_facilitys_id"`
-	Username  string `json:"username" validate:"required"`
-	Password  string `json:"password" validate:"required"`
+	RoleId   uint   `json:"role_id"`
+	Username string `json:"username" validate:"required"`
+	Password string `json:"password" validate:"required"`
 }
