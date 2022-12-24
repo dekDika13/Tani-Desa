@@ -11,8 +11,15 @@ import (
 )
 
 // TODO Create Products
-func (s *adminService) CreateProduct(payloads adminDto.ProductRequest) error {
-	return s.adminRepsitory.CreateProduct(payloads)
+func (s *adminService) CreateProduct(payloads adminDto.ProductRequest, file multipart.File) error {
+	cld, _ := cloudinary.NewFromURL(os.Getenv("CLOUDINARY_URL"))
+	ctx := context.Background()
+	result, err := cld.Upload.Upload(ctx, file, uploader.UploadParams{})
+	if err != nil {
+		return err
+	}
+	
+	return s.adminRepsitory.CreateProduct(payloads,result.SecureURL)
 }
 
 func (s *adminService) GetAllProducts(adminId uint) ([]adminDto.ProductDTO, error) {

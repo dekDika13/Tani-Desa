@@ -15,7 +15,7 @@ type AdminService interface {
 	RegisterAdmin(payloads adminDto.RegisterAdminDto) (adminDto.RegisterAdminDto, error)
 	LoginAdmin(payloads adminDto.LoginDTO) (adminDto.LoginJWT, error)
 	//manage products
-	CreateProduct(payloads adminDto.ProductRequest) error
+	CreateProduct(payloads adminDto.ProductRequest, file multipart.File) error
 	GetAllProducts(adminId uint) ([]adminDto.ProductDTO, error)
 	UpdateImageProduct(productId uint, file multipart.File) error
 }

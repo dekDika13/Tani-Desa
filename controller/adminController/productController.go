@@ -17,6 +17,9 @@ func (u *adminController) CreateProduct(c echo.Context) error {
 	conv_adminID := adminID.(float64)
 	conv := uint(conv_adminID)
 
+	fileHeader, _ := c.FormFile("image")
+	file, _ := fileHeader.Open()
+
 	var payloads adminDto.ProductRequest
 
 	if err := c.Bind(&payloads); err != nil {
@@ -41,7 +44,7 @@ func (u *adminController) CreateProduct(c echo.Context) error {
 		Owner:       payloads.Owner,
 	}
 
-	err := u.adminServ.CreateProduct(temp)
+	err := u.adminServ.CreateProduct(temp,file)
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, utils.Response{
 			Message: err.Error(),

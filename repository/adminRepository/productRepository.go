@@ -6,11 +6,12 @@ import (
 	"time"
 )
 
-func (u *adminRepository) CreateProduct(payloads adminDto.ProductRequest) error {
+func (u *adminRepository) CreateProduct(payloads adminDto.ProductRequest, link string) error {
 
 	if err := u.db.Create(&model.Products{
 		AdminId:     payloads.AdminID,
 		Name:        payloads.Name,
+		Image:       link,
 		Type:        payloads.Type,
 		Qty:         payloads.Qty,
 		Price:       payloads.Price,

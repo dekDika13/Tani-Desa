@@ -13,7 +13,7 @@ type AdminRepository interface {
 	RegisterAdmin(payloads adminDto.RegisterAdminDto) (adminDto.RegisterAdminDto, error)
 	LoginAdmin(payloads adminDto.LoginDTO) (model.Admins, error)
 	//Manage Products
-	CreateProduct(payloads adminDto.ProductRequest) error
+	CreateProduct(payloads adminDto.ProductRequest, link string) error
 	GetAllProducts(adminId uint) ([]adminDto.ProductDTO, error)
 	UpdateImageProduct(productId uint, link string) error
 }
