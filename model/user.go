@@ -8,8 +8,8 @@ import (
 
 type Users struct {
 	UserID    uint           `gorm:"primaryKey;autoIncrement" json:"user_id"`
-	Roles     Roles          `gorm:"foreignKey:role_id"`
-	RoleID    uint           `json:"role_id"`
+	Role      Roles          `gorm:"foreignKey:RoleId"`
+	RoleId    uint           `json:"role_id"`
 	Name      string         `gorm:"size:255;not null" json:"name"`
 	Email     string         `gorm:"size:255;not null" json:"email"`
 	Password  string         `gorm:"size:255;not null" json:"password"`

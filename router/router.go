@@ -40,4 +40,10 @@ func New(e *echo.Echo, db *gorm.DB) {
 
 	// TODO REGISTER
 	v1.POST("/register", adminController.RegisterAdmin, m.Authorization)
+
+	//TODO MANAGE PRODUCT
+	v1_Product := v1.Group("/product")
+	{
+		v1_Product.POST("/", adminController.CreateProduct)
+	}
 }

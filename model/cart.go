@@ -8,8 +8,8 @@ import (
 
 type Carts struct {
 	CartID    uint           `gorm:"primaryKey;not null" json:"cart_id"`
-	Products  Products       `gorm:"foreignKey:product_id"`
-	ProductID uint           `json:"product_id"`
+	Product   Products       `gorm:"foreignKey:ProductId"`
+	ProductId uint           `json:"product_id"`
 	Status    string         `gorm:"size:13" json:"status"`
 	Qty       uint           `json:"qty"`
 	CreatedAT time.Time      `jsom:"created_at"`

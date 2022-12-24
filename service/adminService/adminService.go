@@ -13,6 +13,7 @@ import (
 type AdminService interface {
 	RegisterAdmin(payloads adminDto.RegisterAdminDto) (adminDto.RegisterAdminDto, error)
 	LoginAdmin(payloads adminDto.LoginDTO) (adminDto.LoginJWT, error)
+	CreateProduct(payloads adminDto.ProductRequest) error
 }
 
 type adminService struct {
