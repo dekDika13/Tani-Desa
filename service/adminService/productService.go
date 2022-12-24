@@ -1,6 +1,14 @@
 package adminService
 
-import "Tani-Desa/dto/adminDto"
+import (
+	"Tani-Desa/dto/adminDto"
+	"context"
+	"mime/multipart"
+	"os"
+
+	"github.com/cloudinary/cloudinary-go"
+	"github.com/cloudinary/cloudinary-go/api/uploader"
+)
 
 // TODO Create Products
 func (s *adminService) CreateProduct(payloads adminDto.ProductRequest) error {
@@ -8,14 +16,19 @@ func (s *adminService) CreateProduct(payloads adminDto.ProductRequest) error {
 }
 
 func (s *adminService) GetAllProducts(adminId uint) ([]adminDto.ProductDTO, error) {
-	// product := []adminDto.ProductDTO{}
 
 	return s.adminRepsitory.GetAllProducts(adminId)
 
-	// for _,v := range res{
-	// 	product = append(product, adminDto.ProductDTO{
-	// 		ProductID: ,
-	// 	})
-	// }
+}
 
+func (s *adminService) UpdateImageProduct(productId uint, file multipart.File) error {
+	cld, _ := cloudinary.NewFromURL(os.Getenv("CLOUDINARY_URL"))
+	ctx := context.Background()
+
+	result, errs := cld.Upload.Upload(ctx, file, uploader.UploadParams{})
+	if errs != nil {
+		return errs
+	}
+
+	return s.adminRepsitory.UpdateImageProduct(productId, result.SecureURL)
 }

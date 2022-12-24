@@ -6,6 +6,7 @@ import (
 	"Tani-Desa/repository/adminRepository"
 	"Tani-Desa/utils"
 	"errors"
+	"mime/multipart"
 
 	"golang.org/x/crypto/bcrypt"
 )
@@ -16,6 +17,7 @@ type AdminService interface {
 	//manage products
 	CreateProduct(payloads adminDto.ProductRequest) error
 	GetAllProducts(adminId uint) ([]adminDto.ProductDTO, error)
+	UpdateImageProduct(productId uint, file multipart.File) error
 }
 
 type adminService struct {
