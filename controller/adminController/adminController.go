@@ -1,4 +1,4 @@
-package admincontroller
+package adminController
 
 import (
 	"Tani-Desa/dto/adminDto"
@@ -51,4 +51,35 @@ func (u *adminController) RegisterAdmin(c echo.Context) error {
 		Data:    res,
 	})
 
+}
+
+// TODO LOGIN ADMIN
+func (u *adminController) LoginAdmin(c echo.Context) error {
+	var payloads adminDto.LoginDTO
+
+	if err := c.Bind(&payloads); err != nil {
+		return err
+	}
+
+	if err := c.Validate(payloads); err != nil {
+		return c.JSON(http.StatusBadRequest, utils.Response{
+			Message: err.Error(),
+			Code:    http.StatusBadRequest,
+		})
+	}
+
+	res, err := u.adminServ.LoginAdmin(payloads)
+
+	if err != nil {
+		return c.JSON(http.StatusUnauthorized, utils.Response{
+			Message: err.Error(),
+			Code:    http.StatusUnauthorized,
+		})
+	}
+
+	return c.JSON(http.StatusOK, utils.Response{
+		Message: "login success",
+		Code:    http.StatusOK,
+		Data:    res,
+	})
 }

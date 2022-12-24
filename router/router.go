@@ -1,14 +1,16 @@
 package router
 
 import (
+	"Tani-Desa/controller/adminController"
+	m "Tani-Desa/middleware"
 	"Tani-Desa/repository/adminRepository"
 	"Tani-Desa/service/adminService"
 	"Tani-Desa/utils"
 	"os"
 
 	"github.com/go-playground/validator"
+	"github.com/labstack/echo"
 	"github.com/labstack/echo/middleware"
-	"github.com/labstack/echo/v4"
 	"gorm.io/gorm"
 )
 
@@ -33,4 +35,9 @@ func New(e *echo.Echo, db *gorm.DB) {
 
 	v1 := e.Group("/v1")
 	v1.Use(middleware.JWT([]byte(os.Getenv("JWT_KEY"))))
+
+	e.POST("/auth/login", adminController.LoginAdmin)
+
+	// TODO REGISTER
+	v1.POST("/register", adminController.RegisterAdmin, m.Authorization)
 }

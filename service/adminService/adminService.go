@@ -2,12 +2,17 @@ package adminService
 
 import (
 	"Tani-Desa/dto/adminDto"
+	"Tani-Desa/middleware"
 	"Tani-Desa/repository/adminRepository"
 	"Tani-Desa/utils"
+	"errors"
+
+	"golang.org/x/crypto/bcrypt"
 )
 
 type AdminService interface {
 	RegisterAdmin(payloads adminDto.RegisterAdminDto) (adminDto.RegisterAdminDto, error)
+	LoginAdmin(payloads adminDto.LoginDTO) (adminDto.LoginJWT, error)
 }
 
 type adminService struct {
@@ -37,4 +42,32 @@ func (s *adminService) RegisterAdmin(payloads adminDto.RegisterAdminDto) (adminD
 	}
 
 	return res, nil
+}
+
+// TODO LOGIN ADMIN
+func (s *adminService) LoginAdmin(payloads adminDto.LoginDTO) (adminDto.LoginJWT, error) {
+	var temp adminDto.LoginJWT
+
+	res, err := s.adminRepsitory.LoginAdmin(payloads)
+
+	if errh := bcrypt.CompareHashAndPassword([]byte(res.Password), []byte(payloads.Password)); errh != nil {
+		return temp, errors.New("username or password incorrect")
+	}
+
+	token, errt := middleware.CreateToken(res.AdminID, res.RoleId, res.Email)
+
+	temp = adminDto.LoginJWT{
+		Username: res.Username,
+		Token:    token,
+	}
+
+	if err != nil {
+		return temp, err
+	}
+
+	if errt != nil {
+		return temp, errt
+	}
+
+	return temp, nil
 }

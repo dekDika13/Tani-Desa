@@ -3,6 +3,7 @@ package adminRepository
 import (
 	"Tani-Desa/dto/adminDto"
 	"Tani-Desa/model"
+	"errors"
 	"time"
 
 	"gorm.io/gorm"
@@ -10,6 +11,7 @@ import (
 
 type AdminRepository interface {
 	RegisterAdmin(payloads adminDto.RegisterAdminDto) (adminDto.RegisterAdminDto, error)
+	LoginAdmin(payloads adminDto.LoginDTO) (model.Admins, error)
 }
 
 type adminRepository struct {
@@ -23,9 +25,10 @@ func NewAdminRepository(db *gorm.DB) *adminRepository {
 // TODO REGISTER ADMIN
 func (u *adminRepository) RegisterAdmin(payloads adminDto.RegisterAdminDto) (adminDto.RegisterAdminDto, error) {
 
-	if err := u.db.Create(&model.Admin{
+	if err := u.db.Create(&model.Admins{
 		RoleId:    payloads.RoleId,
 		Username:  payloads.Username,
+		Email:     payloads.Email,
 		Password:  payloads.Password,
 		CreatedAT: time.Now(),
 	}).Error; err != nil {
@@ -33,4 +36,20 @@ func (u *adminRepository) RegisterAdmin(payloads adminDto.RegisterAdminDto) (adm
 	}
 
 	return payloads, nil
+}
+
+// TODO LOGIN ADMIN
+func (u *adminRepository) LoginAdmin(payloads adminDto.LoginDTO) (model.Admins, error) {
+	var admin model.Admins
+
+	query := u.db.Where("email = ?", payloads.Email).First(&admin)
+	if query.Error != nil {
+		return admin, query.Error
+	}
+
+	if query.RowsAffected < 1 {
+		return admin, errors.New("email is incorrect")
+	}
+
+	return admin, nil
 }

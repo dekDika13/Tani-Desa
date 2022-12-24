@@ -35,5 +35,5 @@ func InitDB() {
 }
 
 func InitMigrate() {
-	_ = DB.AutoMigrate(&model.Role{},&model.Admin{})
+	_ = DB.AutoMigrate(&model.Roles{}, &model.Admins{}, &model.Products{})
 }
