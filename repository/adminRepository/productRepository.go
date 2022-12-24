@@ -25,3 +25,15 @@ func (u *adminRepository) CreateProduct(payloads adminDto.ProductRequest) error 
 
 	return nil
 }
+
+func (u *adminRepository) GetAllProducts(adminId uint) ([]adminDto.ProductDTO, error) {
+	var products []adminDto.ProductDTO
+
+	if err := u.db.Model(&model.Products{}).Select("products.*,admins.username as admin_name").
+	Joins("join admins on admins.admin_id = products.admin_id").
+	Where("products.admin_id=?", adminId).Find(&products).
+	Error; err != nil {
+		return nil, err
+	}
+	return products, nil
+}

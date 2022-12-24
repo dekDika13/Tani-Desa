@@ -53,3 +53,27 @@ func (u *adminController) CreateProduct(c echo.Context) error {
 		Code:    http.StatusOK,
 	})
 }
+
+//TODO Get All Products
+
+func (u *adminController) GetAllProducts(c echo.Context) error {
+	adminID, _ := middleware.ClaimData(c, "adminID")
+	conv_adminID := adminID.(float64)
+	conv := uint(conv_adminID)
+
+	res, err := u.adminServ.GetAllProducts(conv)
+
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, utils.Response{
+			Message: err.Error(),
+			Code:    http.StatusInternalServerError,
+		})
+	}
+
+	return c.JSON(http.StatusOK, utils.Response{
+		Message: "Product Ditambahkan",
+		Code:    http.StatusOK,
+		Data:    res,
+	})
+
+}

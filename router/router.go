@@ -45,5 +45,6 @@ func New(e *echo.Echo, db *gorm.DB) {
 	v1_Product := v1.Group("/product")
 	{
 		v1_Product.POST("/", adminController.CreateProduct)
+		v1_Product.GET("/", adminController.GetAllProducts)
 	}
 }
