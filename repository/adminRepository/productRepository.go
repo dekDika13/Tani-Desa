@@ -50,3 +50,13 @@ func (u *adminRepository) UpdateImageProduct(productId uint, link string) error 
 	return nil
 
 }
+
+func (u *adminRepository) GetProductById(adminId uint, productId uint) (adminDto.ProductDTO, error) {
+	product := adminDto.ProductDTO{}
+	if err := u.db.Model(&model.Products{}).Select("products.*,admins.username as admin_name").
+		Joins("join admins on admins.admin_id =products.admin_id").Where("products.admin_id=? && product_id =?", adminId, productId).Find(&product).
+		Error; err != nil {
+		return product, err
+	}
+	return product, nil
+}

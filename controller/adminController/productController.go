@@ -44,7 +44,7 @@ func (u *adminController) CreateProduct(c echo.Context) error {
 		Owner:       payloads.Owner,
 	}
 
-	err := u.adminServ.CreateProduct(temp,file)
+	err := u.adminServ.CreateProduct(temp, file)
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, utils.Response{
 			Message: err.Error(),
@@ -109,4 +109,33 @@ func (u *adminController) UpdateImageProduct(c echo.Context) error {
 		Code:    http.StatusOK,
 	})
 
+}
+
+func (u *adminController) GetProductById(c echo.Context) error {
+	id := c.Param("id")
+	convid, err := strconv.Atoi(id)
+
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, utils.Response{
+			Message: err.Error(),
+			Code:    http.StatusBadRequest,
+		})
+	}
+	adminID, err := middleware.ClaimData(c, "adminID")
+	convAdmin, _ := adminID.(float64)
+
+	res, err := u.adminServ.GetProductById(uint(convAdmin), uint(convid))
+
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, utils.Response{
+			Message: err.Error(),
+			Code:    http.StatusInternalServerError,
+		})
+	}
+
+	return c.JSON(http.StatusOK, utils.Response{
+		Message: "Product",
+		Code:    http.StatusOK,
+		Data:    res,
+	})
 }

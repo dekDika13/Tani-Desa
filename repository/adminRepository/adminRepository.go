@@ -16,6 +16,7 @@ type AdminRepository interface {
 	CreateProduct(payloads adminDto.ProductRequest, link string) error
 	GetAllProducts(adminId uint) ([]adminDto.ProductDTO, error)
 	UpdateImageProduct(productId uint, link string) error
+	GetProductById(adminId uint, productId uint) (adminDto.ProductDTO, error)
 }
 
 type adminRepository struct {

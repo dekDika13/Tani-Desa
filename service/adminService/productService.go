@@ -18,8 +18,8 @@ func (s *adminService) CreateProduct(payloads adminDto.ProductRequest, file mult
 	if err != nil {
 		return err
 	}
-	
-	return s.adminRepsitory.CreateProduct(payloads,result.SecureURL)
+
+	return s.adminRepsitory.CreateProduct(payloads, result.SecureURL)
 }
 
 func (s *adminService) GetAllProducts(adminId uint) ([]adminDto.ProductDTO, error) {
@@ -39,3 +39,8 @@ func (s *adminService) UpdateImageProduct(productId uint, file multipart.File) e
 
 	return s.adminRepsitory.UpdateImageProduct(productId, result.SecureURL)
 }
+
+func (s *adminService) GetProductById(adminId uint, productId uint) (adminDto.ProductDTO, error) {
+	return s.adminRepsitory.GetProductById(adminId, productId)
+}
+
