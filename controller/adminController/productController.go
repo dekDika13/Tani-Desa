@@ -139,3 +139,31 @@ func (u *adminController) GetProductById(c echo.Context) error {
 		Data:    res,
 	})
 }
+
+func (u *adminController) DeleteProductById(c echo.Context) error {
+	id := c.Param("id")
+	convid, errs := strconv.Atoi(id)
+	adminID, _ := middleware.ClaimData(c, "adminID")
+	convAdmin, _ := adminID.(float64)
+
+	if errs != nil {
+		return c.JSON(http.StatusBadRequest, utils.Response{
+			Message: errs.Error(),
+			Code:    http.StatusBadRequest,
+		})
+	}
+
+	err := u.adminServ.DeleteProductById(uint(convAdmin), uint(convid))
+
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, utils.Response{
+			Message: err.Error(),
+			Code:    http.StatusInternalServerError,
+		})
+	}
+
+	return c.JSON(http.StatusOK, utils.Response{
+		Message: "Berhasil di Hapus",
+		Code:    http.StatusOK,
+	})
+}

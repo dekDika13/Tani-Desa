@@ -48,5 +48,6 @@ func New(e *echo.Echo, db *gorm.DB) {
 		v1_Product.GET("/", adminController.GetAllProducts)
 		v1_Product.PUT("/:id", adminController.UpdateImageProduct)
 		v1_Product.GET("/:id", adminController.GetProductById)
+		v1_Product.DELETE("/:id", adminController.DeleteProductById)
 	}
 }

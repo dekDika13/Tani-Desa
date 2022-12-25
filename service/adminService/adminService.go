@@ -19,6 +19,7 @@ type AdminService interface {
 	GetAllProducts(adminId uint) ([]adminDto.ProductDTO, error)
 	UpdateImageProduct(productId uint, file multipart.File) error
 	GetProductById(adminId uint, productId uint) (adminDto.ProductDTO, error)
+	DeleteProductById(adminId uint, productId uint) error
 }
 
 type adminService struct {

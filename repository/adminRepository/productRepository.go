@@ -60,3 +60,10 @@ func (u *adminRepository) GetProductById(adminId uint, productId uint) (adminDto
 	}
 	return product, nil
 }
+
+func (u *adminRepository) DeleteProductById(adminId uint, productId uint) error {
+	if err := u.db.Where("products.admin_id=? && product_id =?", adminId, productId).Delete(&model.Products{}).Error; err != nil {
+		return err
+	}
+	return nil
+}

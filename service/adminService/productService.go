@@ -44,3 +44,8 @@ func (s *adminService) GetProductById(adminId uint, productId uint) (adminDto.Pr
 	return s.adminRepsitory.GetProductById(adminId, productId)
 }
 
+func (s *adminService) DeleteProductById(adminId uint, productId uint) error {
+
+	return s.adminRepsitory.DeleteProductById(adminId, productId)
+
+}
