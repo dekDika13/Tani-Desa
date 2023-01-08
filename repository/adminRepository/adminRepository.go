@@ -12,6 +12,12 @@ import (
 type AdminRepository interface {
 	RegisterAdmin(payloads adminDto.RegisterAdminDto) (adminDto.RegisterAdminDto, error)
 	LoginAdmin(payloads adminDto.LoginDTO) (model.Admins, error)
+	//Manage Products
+	CreateProduct(payloads adminDto.ProductRequest, link string) error
+	GetAllProducts(adminId uint) ([]adminDto.ProductDTO, error)
+	UpdateImageProduct(productId uint, link string) error
+	GetProductById(adminId uint, productId uint) (adminDto.ProductDTO, error)
+	DeleteProductById(adminId uint, productId uint) error
 }
 
 type adminRepository struct {
